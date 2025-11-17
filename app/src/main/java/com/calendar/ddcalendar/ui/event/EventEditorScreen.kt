@@ -141,7 +141,7 @@ fun EventEditorScreen(
                     IconButton(
                         onClick = {
                             // 验证结束时间（仅针对非全天事件）
-                            if (!allDay && endTime.isBefore(startTime)) {
+                            if (!allDay && !endTime.isAfter(startTime)) {
                                 showTimeErrorDialog = true
                                 return@IconButton
                             }
@@ -398,10 +398,7 @@ fun EventEditorScreen(
             DateTimePickerDialog(
                 initialDateTime = endTime,
                 onDateTimeSelected = { newTime ->
-                    // 确保结束时间不早于开始时间
-                    if (newTime.isAfter(startTime)) {
-                        endTime = newTime
-                    }
+                    endTime = newTime
                 },
                 onDismiss = { showEndTimePicker = false }
             )
