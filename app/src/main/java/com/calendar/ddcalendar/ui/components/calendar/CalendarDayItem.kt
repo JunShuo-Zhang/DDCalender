@@ -84,14 +84,13 @@ fun CalendarDayItem(
             // 公历日期 - 加粗显示，当天用圆形背景
             Box(
                 modifier = Modifier
+                    .size(28.dp)
                     .then(
                         if (isToday) {
-                            Modifier
-                                .size(28.dp)
-                                .background(
-                                    MaterialTheme.colorScheme.primary,
-                                    CircleShape
-                                )
+                            Modifier.background(
+                                MaterialTheme.colorScheme.primary,
+                                CircleShape
+                            )
                         } else {
                             Modifier
                         }
