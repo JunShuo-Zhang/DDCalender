@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -56,6 +55,7 @@ fun CalendarDayItem(
             .background(
                 when {
                     isSelected -> MaterialTheme.colorScheme.primaryContainer
+                    isToday -> MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
                     else -> Color.Transparent
                 }
             )
@@ -81,35 +81,19 @@ fun CalendarDayItem(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            // 公历日期 - 加粗显示，当天用圆形背景
-            Box(
-                modifier = Modifier
-                    .size(28.dp)
-                    .then(
-                        if (isToday) {
-                            Modifier.background(
-                                MaterialTheme.colorScheme.primary,
-                                CircleShape
-                            )
-                        } else {
-                            Modifier
-                        }
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = date.day.toString(),
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
-                    ),
-                    color = when {
-                        isToday -> MaterialTheme.colorScheme.onPrimary
-                        !isInCurrentMonth -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-                        else -> MaterialTheme.colorScheme.onSurface
-                    },
-                    textAlign = TextAlign.Center
-                )
-            }
+            // 公历日期 - 加粗显示
+            Text(
+                text = date.day.toString(),
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                ),
+                color = when {
+                    isToday -> MaterialTheme.colorScheme.primary
+                    !isInCurrentMonth -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                    else -> MaterialTheme.colorScheme.onSurface
+                },
+                textAlign = TextAlign.Center
+            )
 
             // 农历文本 - 紧贴公历下方，颜色较浅
             if (lunarText.isNotEmpty()) {
@@ -119,7 +103,7 @@ fun CalendarDayItem(
                         fontSize = MaterialTheme.typography.labelSmall.fontSize * 0.85f
                     ),
                     color = when {
-                        isToday -> MaterialTheme.colorScheme.primary
+                        isToday -> MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
                         !isInCurrentMonth -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.25f)
                         else -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                     },
